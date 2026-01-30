@@ -129,7 +129,7 @@ async function main() {
   const lines = [];
 
   // Header
-  lines.push(`# Hello there, I'm Sergio 👋`);
+  lines.push(`# Hello there, I'm Sergio <img src="https://media.giphy.com/media/hvRJCLFzcasrR4ia7z/giphy.gif" width="28" alt="hi" />`);
   lines.push(`📍 London`);
   lines.push("");
   lines.push(`Deep in vibe-coding mode`);
@@ -139,15 +139,58 @@ async function main() {
   // Projects (sorted newest → oldest)
   const cardsSorted = [...cards].sort((a, b) => (b.date || "").localeCompare(a.date || ""));
 
-  async function urlLooksLoadable(url) {
+  async function fetchAsFile(url, outPathBase) {
+    // Downloads an image and saves it to disk.
+    const res = await fetch(url, {
+      headers: {
+        "user-agent": "github-profile-sync/1.0 (+https://github.com/sergiopesch)",
+        accept: "image/*",
+      },
+    });
+    if (!res.ok) return null;
+
+    const buf = Buffer.from(await res.arrayBuffer());
+    if (!buf.length) return null;
+
+    const ct = (res.headers.get("content-type") || "").toLowerCase();
+    let ext = "png";
+    if (ct.includes("image/svg")) ext = "svg";
+    else if (ct.includes("image/x-icon") || ct.includes("image/vnd.microsoft.icon")) ext = "ico";
+    else if (ct.includes("image/jpeg")) ext = "jpg";
+    else if (ct.includes("image/gif")) ext = "gif";
+    else if (ct.includes("image/png")) ext = "png";
+
+    const outPath = `${outPathBase}.${ext}`;
+    await fs.mkdir("assets/icons", { recursive: true });
+    await fs.writeFile(outPath, buf);
+    return outPath;
+  }
+
+  async function ensureIconFileForProject({ slug, siteUrl }) {
+    // Prefer fetching directly from the project origin to avoid broken/blocked third-party favicon services.
     try {
-      const res = await fetch(url, {
-        method: "GET",
-        headers: { "user-agent": "github-profile-sync/1.0" },
-      });
-      return res.ok;
+      const u = new URL(siteUrl);
+      const origin = u.origin;
+
+      const candidates = [
+        `${origin}/favicon.ico`,
+        `${origin}/favicon.png`,
+        `${origin}/favicon.svg`,
+        `${origin}/apple-touch-icon.png`,
+      ];
+
+      for (const cand of candidates) {
+        const saved = await fetchAsFile(cand, `assets/icons/${slug}`);
+        if (saved) return saved;
+      }
+
+      // Last resort: identicon (always available)
+      const ident = `https://api.dicebear.com/9.x/identicon/svg?seed=${encodeURIComponent(slug)}`;
+      const saved = await fetchAsFile(ident, `assets/icons/${slug}`);
+      return saved;
     } catch {
-      return false;
+      const ident = `https://api.dicebear.com/9.x/identicon/svg?seed=${encodeURIComponent(slug)}`;
+      return await fetchAsFile(ident, `assets/icons/${slug}`);
     }
   }
 
@@ -156,29 +199,18 @@ async function main() {
     lines.push("");
 
     for (const c of cardsSorted) {
-      // Goal: avoid broken icons in GitHub rendering.
-      // 1) project image from sergiopesch.com (unique and reliable)
-      // 2) external favicon via Google S2, but only if it actually exists
-      // 3) deterministic identicon seeded by slug (always unique)
-      const identicon = `https://api.dicebear.com/9.x/identicon/svg?seed=${encodeURIComponent(
-        c.slug
-      )}`;
+      // Prefer project images from your own site (most reliable, already hosted).
+      // Otherwise, download and store each project's favicon locally in-repo (so GitHub never hotlinks it).
+      let icon = c.image || "";
 
-      let icon = identicon;
-
-      if (c.image) {
-        icon = c.image;
-      } else {
-        const candidate = `https://www.google.com/s2/favicons?sz=64&domain_url=${encodeURIComponent(
-          c.siteUrl
-        )}`;
-        if (await urlLooksLoadable(candidate)) icon = candidate;
+      if (!icon) {
+        const saved = await ensureIconFileForProject({ slug: c.slug, siteUrl: c.siteUrl });
+        icon = saved ? saved : "";
       }
 
       const tail = c.desc ? ` — ${c.desc}` : "";
-      lines.push(
-        `- <img src="${icon}" width="16" height="16" alt="" /> <a href="${c.url}"><b>${c.title}</b></a>${tail}`
-      );
+      const iconHtml = icon ? `<img src="${icon}" width="16" height="16" alt="" /> ` : "";
+      lines.push(`- ${iconHtml}<a href="${c.url}"><b>${c.title}</b></a>${tail}`);
     }
 
     lines.push("");

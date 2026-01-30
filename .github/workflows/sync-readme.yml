@@ -31,6 +31,6 @@ jobs:
           fi
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add README.md
-          git commit -m "chore: sync README from profile.json"
+          git add README.md assets/icons || true
+          git commit -m "chore: sync README"
           git push
