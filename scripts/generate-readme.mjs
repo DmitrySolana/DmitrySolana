@@ -1,100 +1,129 @@
 import fs from "node:fs/promises";
 
-const PROFILE_JSON_URL = "https://www.sergiopesch.com/profile.json";
+const SITE = "https://www.sergiopesch.com";
 
 function mdEscape(s = "") {
   return String(s).replace(/\|/g, "\\|").trim();
 }
 
-function ensureArray(x) {
-  return Array.isArray(x) ? x : [];
+function truncate(s, n) {
+  const str = String(s ?? "").trim();
+  if (!str) return "";
+  if (str.length <= n) return str;
+  return str.slice(0, n - 1).trimEnd() + "…";
+}
+
+async function fetchHtml(url) {
+  const res = await fetch(url, {
+    headers: {
+      "user-agent": "github-profile-sync/1.0 (+https://github.com/sergiopesch)",
+      accept: "text/html",
+    },
+  });
+  if (!res.ok) throw new Error(`Failed to fetch ${url}: ${res.status} ${res.statusText}`);
+  return await res.text();
+}
+
+function extractNextData(html, urlForError) {
+  const m = html.match(
+    /<script id="__NEXT_DATA__" type="application\/json">(.*?)<\/script>/s
+  );
+  if (!m) throw new Error(`Could not find __NEXT_DATA__ on ${urlForError}`);
+  try {
+    return JSON.parse(m[1]);
+  } catch (e) {
+    throw new Error(`Failed to parse __NEXT_DATA__ JSON on ${urlForError}: ${e?.message ?? e}`);
+  }
+}
+
+function pick(arr, n) {
+  return Array.isArray(arr) ? arr.slice(0, n) : [];
 }
 
 async function main() {
-  const res = await fetch(PROFILE_JSON_URL, {
-    headers: { "user-agent": "github-profile-sync/1.0" },
-  });
+  // Pull structured data from your site (Next.js SSG embeds JSON into the HTML)
+  const [homeHtml, projectsHtml, thoughtsHtml] = await Promise.all([
+    fetchHtml(`${SITE}/`),
+    fetchHtml(`${SITE}/projects`),
+    fetchHtml(`${SITE}/raw-thoughts`),
+  ]);
 
-  if (!res.ok) {
-    throw new Error(`Failed to fetch profile.json: ${res.status} ${res.statusText}`);
-  }
+  const home = extractNextData(homeHtml, `${SITE}/`);
+  const projectsPage = extractNextData(projectsHtml, `${SITE}/projects`);
+  const thoughtsPage = extractNextData(thoughtsHtml, `${SITE}/raw-thoughts`);
 
-  const data = await res.json();
+  const latestProject = home?.props?.pageProps?.latestProject;
+  const projects = projectsPage?.props?.pageProps?.projects ?? [];
+  const thoughts = thoughtsPage?.props?.pageProps?.posts ?? [];
 
-  const name = mdEscape(data.name ?? "Sergio Peschiera");
-  const headline = mdEscape(data.headline ?? "");
-  const location = mdEscape(data.location ?? "");
-  const now = ensureArray(data.now).map(mdEscape).filter(Boolean);
-  const projects = ensureArray(data.projects)
+  const topProjects = pick(projects, 6)
     .map((p) => ({
       title: mdEscape(p?.title),
-      url: mdEscape(p?.url),
-      desc: mdEscape(p?.description ?? ""),
+      url: `${SITE}/projects/${mdEscape(p?.slug)}`,
+      desc: mdEscape(truncate(p?.excerpt ?? "", 110)),
+      date: mdEscape(p?.date ?? ""),
     }))
-    .filter((p) => p.title && p.url)
-    .slice(0, 6);
+    .filter((p) => p.title && p.url);
 
-  const thoughts = ensureArray(data.thoughts)
+  const topThoughts = pick(thoughts, 5)
     .map((t) => ({
       title: mdEscape(t?.title),
-      url: mdEscape(t?.url),
+      url: `${SITE}/raw-thoughts/${mdEscape(t?.slug)}`,
       date: mdEscape(t?.date ?? ""),
     }))
-    .filter((t) => t.title && t.url)
-    .slice(0, 4);
+    .filter((t) => t.title && t.url);
 
-  const links = data.links ?? {};
-  const website = mdEscape(links.website ?? "https://www.sergiopesch.com");
-  const linkedin = mdEscape(links.linkedin ?? "");
-  const x = mdEscape(links.x ?? "");
-  const github = mdEscape(links.github ?? "https://github.com/sergiopesch");
+  const latestProjectLine = latestProject?.slug
+    ? `**Latest:** [${mdEscape(latestProject.title)}](${SITE}/projects/${mdEscape(
+        latestProject.slug
+      )}) — ${mdEscape(truncate(latestProject.excerpt ?? "", 140))}`
+    : "";
 
   const lines = [];
 
-  lines.push(`# ${name}`);
+  // Header / “hero”
+  lines.push(`<div align=\"center\">`);
+  lines.push("");
+  lines.push(`# Sergio Peschiera`);
+  lines.push("");
+  lines.push(`Building small products, writing things down, and iterating in public.`);
+  lines.push("");
   lines.push(
-    [location && `📍 ${location}`, headline && `🛠️ ${headline}`].filter(Boolean).join(" · ")
+    `[Website](${SITE}) · [Projects](${SITE}/projects) · [Thoughts](${SITE}/raw-thoughts) · [X](https://x.com/sergiopesch)`
   );
   lines.push("");
-
-  if (data.tagline) {
-    lines.push(`> ${mdEscape(data.tagline)}`);
-    lines.push("");
-  }
-
-  if (now.length) {
-    lines.push(`## Now`);
-    for (const item of now.slice(0, 5)) lines.push(`- ${item}`);
-    lines.push("");
-  }
-
-  if (projects.length) {
-    lines.push(`## Selected projects`);
-    for (const p of projects) {
-      const suffix = p.desc ? ` — ${p.desc}` : "";
-      lines.push(`- [${p.title}](${p.url})${suffix}`);
-    }
-    lines.push("");
-  }
-
-  if (thoughts.length) {
-    lines.push(`## Writing / notes`);
-    for (const t of thoughts) {
-      const suffix = t.date ? ` — ${t.date}` : "";
-      lines.push(`- [${t.title}](${t.url})${suffix}`);
-    }
-    lines.push("");
-  }
-
-  lines.push(`## Links`);
-  lines.push(`- Website: ${website}`);
-  lines.push(`- GitHub: ${github}`);
-  if (linkedin) lines.push(`- LinkedIn: ${linkedin}`);
-  if (x) lines.push(`- X: ${x}`);
+  lines.push(`</div>`);
   lines.push("");
 
+  if (latestProjectLine) {
+    lines.push(latestProjectLine);
+    lines.push("");
+  }
+
+  // Projects
+  if (topProjects.length) {
+    lines.push(`## Projects`);
+    for (const p of topProjects) {
+      const suffix = [p.desc && `— ${p.desc}`, p.date && `(${p.date})`].filter(Boolean).join(" ");
+      lines.push(`- [${p.title}](${p.url}) ${suffix}`.trim());
+    }
+    lines.push("");
+  }
+
+  // Writing
+  if (topThoughts.length) {
+    lines.push(`## Recent thoughts`);
+    for (const t of topThoughts) {
+      const suffix = t.date ? `— ${t.date}` : "";
+      lines.push(`- [${t.title}](${t.url}) ${suffix}`.trim());
+    }
+    lines.push("");
+  }
+
   lines.push(`---`);
-  lines.push(`_This README is auto-generated from \`${PROFILE_JSON_URL}\`._`);
+  lines.push(
+    `_Auto-generated from ${SITE} (parsing Next.js __NEXT_DATA__). Updated: ${new Date().toISOString()}_`
+  );
   lines.push("");
 
   await fs.writeFile("README.md", lines.join("\n"), "utf8");
