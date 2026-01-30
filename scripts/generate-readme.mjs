@@ -49,6 +49,7 @@ async function ghGraphql(query, variables = {}) {
 
 async function main() {
   const taglines = JSON.parse(await fs.readFile("scripts/taglines.json", "utf8"));
+  const emojis = JSON.parse(await fs.readFile("scripts/emojis.json", "utf8"));
 
   const data = await ghGraphql(
     `query($login:String!) {
@@ -86,11 +87,13 @@ async function main() {
       const custom = taglines?.[r.name] || "";
       const fallback = r.description ? `"${r.description}"` : "";
       const desc = mdEscape(enforceTenWordsFunny(custom || fallback));
+      const emoji = emojis?.[r.name] || "✨";
       return {
         name: mdEscape(r.name),
         url: r.url,
         pushedAt: r.pushedAt || "",
         desc,
+        emoji,
       };
     });
 
@@ -107,13 +110,9 @@ async function main() {
   lines.push(`## Current Projects`);
   lines.push("");
 
-  const ghFavicon = `https://github.com/favicon.ico`;
-
   for (const r of repos) {
     const tail = r.desc ? ` — ${r.desc}` : "";
-    lines.push(
-      `- <img src="${ghFavicon}" width="16" height="16" alt="" /> <a href="${r.url}"><b>${r.name}</b></a>${tail}`
-    );
+    lines.push(`- ${r.emoji} <a href="${r.url}"><b>${r.name}</b></a>${tail}`);
   }
 
   lines.push("");
