@@ -5,19 +5,25 @@ Deep in vibe-shipping mode
 
 ## Current Projects
 
-- <img src="assets/icons/14-project.svg" width="16" height="16" alt="" /> <a href="https://www.sergiopesch.com/projects/14-project"><b>FUSE - Performance Coffee Creatine</b></a> — Creatine is one of the most studied supplements on earth
-- <img src="assets/icons/13-project.svg" width="16" height="16" alt="" /> <a href="https://www.sergiopesch.com/projects/13-project"><b>Spotify Notetaker</b></a> — Take notes on tracks
-- <img src="https://www.sergiopesch.com/images/ravitto.gif" width="16" height="16" alt="" /> <a href="https://www.sergiopesch.com/projects/8-project"><b>Ravitto - The Dancing Robot</b></a> — A music-reactive robot that autonomously dances to musical beats while displaying expressive animations on LED…
-- <img src="https://www.sergiopesch.com/images/enddrivingtestcorruption.png" width="16" height="16" alt="" /> <a href="https://www.sergiopesch.com/projects/7-project"><b>End Driving Test Corruption in the UK</b></a> — After attending the Rebooting State Capacity Hackathon in London in April 2025, I met the…
-- <img src="assets/icons/10-project.ico" width="16" height="16" alt="" /> <a href="https://www.sergiopesch.com/projects/10-project"><b>Breakfast Burst Planner</b></a> — A delightful breakfast planning application designed to help users organize their morning meals
-- <img src="https://www.sergiopesch.com/images/londonshopai.png" width="16" height="16" alt="" /> <a href="https://www.sergiopesch.com/projects/6-project"><b>Londonshop.ai</b></a> — Frustrated by the lack of high-quality London merchandise, I took matters into my own hands…
-- <img src="assets/icons/9-project.ico" width="16" height="16" alt="" /> <a href="https://www.sergiopesch.com/projects/9-project"><b>Master JJ - BJJ Training Companion</b></a> — A comprehensive Jiu-Jitsu training platform designed to help practitioners improve their skills and track their…
-- <img src="https://www.sergiopesch.com/images/verticalpong.gif" width="16" height="16" alt="" /> <a href="https://www.sergiopesch.com/projects/5-project"><b>Vertical Pong Game</b></a> — As LLMs become increasingly capable of creating games, I tried developing a simple one using…
-- <img src="https://www.sergiopesch.com/images/monthquest.gif" width="16" height="16" alt="" /> <a href="https://www.sergiopesch.com/projects/4-project"><b>Month Quest</b></a> — This is fun project to practice memory skills
-- <img src="assets/icons/3-project.ico" width="16" height="16" alt="" /> <a href="https://www.sergiopesch.com/projects/3-project"><b>Mum & Daughter Bus Checker</b></a> — Every time my wife and I need to drop our daughter off at school by…
-- <img src="https://www.sergiopesch.com/images/audio-visualizer.gif" width="16" height="16" alt="" /> <a href="https://www.sergiopesch.com/projects/11-project"><b>My Audio Visualizer</b></a> — A Next.js app that visualizes audio in real-time as a radial ripple from the canvas…
-- <img src="assets/icons/12-project.ico" width="16" height="16" alt="" /> <a href="https://www.sergiopesch.com/projects/12-project"><b>AI Research Paper Finder</b></a> — A React-based web application designed to help users discover, analyze, and discuss academic research papers…
-- <img src="https://www.sergiopesch.com/images/notebookpod.gif" width="16" height="16" alt="" /> <a href="https://www.sergiopesch.com/projects/2-project"><b>The Notebook Pod</b></a> — A curated AI-powered podcast featuring short-form dialogues where two AI voices unpack insights from human-generated…
-- <img src="assets/icons/1-project.ico" width="16" height="16" alt="" /> <a href="https://www.sergiopesch.com/projects/1-project"><b>Note Taker</b></a> — One of the most useful applications of AI right now, in my view, is note-taking
+- 📝 <a href="https://github.com/sergiopesch/Note-Taker"><b>note-taker</b></a> — Talk, ramble, get tidy notes and next steps
+- ☕️ <a href="https://github.com/sergiopesch/Fuse--Creatine-"><b>fuse--creatine-</b></a> — Creatine for coffee: performance upgrade without gritty regret
+- 🤖 <a href="https://github.com/sergiopesch/robot-rave-"><b>robot-rave-</b></a> — A dancing robot built at a London hackathon
+- 🔳 <a href="https://github.com/sergiopesch/qr-code-generator"><b>qr-code-generator</b></a> — Turns links into squares your camera actually understands
+- 🎧 <a href="https://github.com/sergiopesch/Spotify-Notetaker"><b>spotify-notetaker</b></a> — Notes for podcasts: because rewind is emotional damage
+- 🥐 <a href="https://github.com/sergiopesch/breakfast-burst-planner"><b>breakfast-burst-planner</b></a> — Plans breakfast so you can oversleep professionally
+- 📚 <a href="https://github.com/sergiopesch/ai-research-gather"><b>ai-research-gather</b></a> — Research papers, summarized, so you can pretend you read them
+- 🎛️ <a href="https://github.com/sergiopesch/my-audio-visualizer"><b>my-audio-visualizer</b></a> — Pixels dance to sound: nightclub for your speakers
+- 🥋 <a href="https://github.com/sergiopesch/mybjjmentor"><b>mybjjmentor</b></a> — BJJ training tracker: less guessing, more choking politely
+- 🚌 <a href="https://github.com/sergiopesch/mum-daughter-bus-checker"><b>mum-daughter-bus-checker</b></a> — London buses, school runs, fewer arguments before 8am please
+- 🛍️ <a href="https://github.com/sergiopesch/london-shop"><b>london-shop</b></a> — Fake merch store, real love for London
+- 🎙️ <a href="https://github.com/sergiopesch/virtualpodcaststudio"><b>virtualpodcaststudio</b></a> — Generates podcasts from the internet: chaos, but narrated
+- 🏓 <a href="https://github.com/sergiopesch/ponglearn"><b>ponglearn</b></a> — Pong, but educational-ish
+- 🎨 <a href="https://github.com/sergiopesch/designer-portfolio"><b>designer-portfolio</b></a> — A portfolio that roasts design culture while applying anyway lol
+- 🧪 <a href="https://github.com/sergiopesch/aimc"><b>aimc</b></a> — AIMC: experiments, half-baked ideas, fully committed commits
+- 🎬 <a href="https://github.com/sergiopesch/video-meme"><b>video-meme</b></a> — Make videos meme-ready: add captions, punchlines, chaos
+- 🗣️ <a href="https://github.com/sergiopesch/VoiceModeReplica"><b>voicemodereplica</b></a> — Recreating voice mode vibes: talking to code, again
+- 🧱 <a href="https://github.com/sergiopesch/verticalbrick-pong-game"><b>verticalbrick-pong-game</b></a> — Vertical pong bricks: frustration training disguised as fun
+- 🔊 <a href="https://github.com/sergiopesch/voice"><b>voice</b></a> — Voice stuff: talk in, magic out, occasionally haunted
+- 👥 <a href="https://github.com/sergiopesch/diarization-demo"><b>diarization-demo</b></a> — Speaker diarization demo: who said what, now
 
-<sub>14 projects</sub>
+<sub>20 repos</sub>
