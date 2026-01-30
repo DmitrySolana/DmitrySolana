@@ -119,6 +119,80 @@ async function main() {
   lines.push(`<sub>${repos.length} repos</sub>`);
   lines.push("");
 
+  // --- Vibe Activity (parody grid; not real GitHub contributions) ---
+  function vibeActivitySvg() {
+    // Grid size similar-ish to GitHub contributions: 7 rows (days) x 24 cols (weeks)
+    const rows = 7;
+    const cols = 24;
+    const cell = 12;
+    const gap = 3;
+    const w = cols * cell + (cols - 1) * gap;
+    const h = rows * cell + (rows - 1) * gap;
+
+    // Red palette (light -> dark)
+    const palette = ["#2b0a0a", "#4a0f0f", "#7a1414", "#b91c1c", "#ef4444"]; // deep red → bright
+
+    // Shape: a chunky "C" (my/our logo-ish vibe) drawn into the grid.
+    // 1 = ink, 0 = empty
+    const shape = [
+      "011111111111111111111110",
+      "011000000000000000000010",
+      "011000000000000000000000",
+      "011000000000000000000000",
+      "011000000000000000000000",
+      "011000000000000000000010",
+      "011111111111111111111110",
+    ].map((row) => row.split("").map((c) => c === "1"));
+
+    // Sprinkle some "noise" inside the shape so it looks like activity, but keep the outline readable.
+    // Deterministic based on GH_USER.
+    let seed = 0;
+    for (const ch of GH_USER) seed = (seed * 31 + ch.charCodeAt(0)) >>> 0;
+    function rand() {
+      // xorshift32
+      seed ^= seed << 13;
+      seed ^= seed >>> 17;
+      seed ^= seed << 5;
+      return (seed >>> 0) / 4294967296;
+    }
+
+    const rects = [];
+    for (let r = 0; r < rows; r++) {
+      for (let c = 0; c < cols; c++) {
+        const on = shape[r]?.[c] ?? false;
+        const x = c * (cell + gap);
+        const y = r * (cell + gap);
+
+        // Background tiles: very dark red.
+        let level = 0;
+
+        if (on) {
+          // Inside the "C": brighter reds, weighted toward mid/high.
+          const t = rand();
+          if (t < 0.15) level = 2;
+          else if (t < 0.55) level = 3;
+          else level = 4;
+        } else {
+          // Outside: mostly empty, occasional faint dot.
+          level = rand() < 0.03 ? 1 : 0;
+        }
+
+        rects.push(
+          `<rect x="${x}" y="${y}" width="${cell}" height="${cell}" rx="2" fill="${palette[level]}" />`
+        );
+      }
+    }
+
+    return `\n<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Vibe Activity (parody)">\n  <rect width="100%" height="100%" fill="transparent"/>\n  ${rects.join("\n  ")}\n</svg>\n`;
+  }
+
+  lines.push(`## Vibe Activity`);
+  lines.push("");
+  lines.push(`<sub>Parody grid. Not real contributions. Just vibes.</sub>`);
+  lines.push("");
+  lines.push(vibeActivitySvg());
+  lines.push("");
+
   await fs.writeFile("README.md", lines.join("\n"), "utf8");
   console.log("README.md generated");
 }
