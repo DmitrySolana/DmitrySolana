@@ -89,7 +89,7 @@ async function main() {
       const desc = mdEscape(enforceTenWordsFunny(custom || fallback));
       const emoji = emojis?.[r.name] || "✨";
       return {
-        name: mdEscape(r.name),
+        name: mdEscape(String(r.name).toLowerCase()),
         url: r.url,
         pushedAt: r.pushedAt || "",
         desc,
