@@ -121,9 +121,10 @@ async function main() {
 
   // --- Vibe Activity (parody grid; not real GitHub contributions) ---
   function vibeActivitySvg() {
-    // Grid size similar-ish to GitHub contributions: 7 rows (days) x 24 cols (weeks)
+    // Grid size similar-ish to GitHub contributions: 7 rows (days) x N cols (weeks)
+    // This mask was derived from your logocrab.webp (downsampled).
     const rows = 7;
-    const cols = 24;
+    const cols = 36;
     const cell = 12;
     const gap = 3;
     const w = cols * cell + (cols - 1) * gap;
@@ -132,16 +133,16 @@ async function main() {
     // Red palette (light -> dark)
     const palette = ["#2b0a0a", "#4a0f0f", "#7a1414", "#b91c1c", "#ef4444"]; // deep red → bright
 
-    // Shape: a chunky "C" (my/our logo-ish vibe) drawn into the grid.
+    // Shape: your crab logo, downsampled into a 36x7 mask.
     // 1 = ink, 0 = empty
     const shape = [
-      "011111111111111111111110",
-      "011000000000000000000010",
-      "011000000000000000000000",
-      "011000000000000000000000",
-      "011000000000000000000000",
-      "011000000000000000000010",
-      "011111111111111111111110",
+      "000000000000011000000001011110000000",
+      "000000000011111010011111111111000000",
+      "000000001111111111111111111111100000",
+      "000000001111111111111111111111000000",
+      "000000111111111111111111111100000000",
+      "000000111111111111111100000000000000",
+      "000000001111101111111000000000000000",
     ].map((row) => row.split("").map((c) => c === "1"));
 
     // Sprinkle some "noise" inside the shape so it looks like activity, but keep the outline readable.
@@ -188,7 +189,7 @@ async function main() {
 
   lines.push(`## Vibe Activity`);
   lines.push("");
-  lines.push(`<sub>Parody grid. Not real contributions. Just vibes.</sub>`);
+  lines.push(`<sub>Parody heatmap. Not real contributions. Crab-coded.</sub>`);
   lines.push("");
   lines.push(vibeActivitySvg());
   lines.push("");
