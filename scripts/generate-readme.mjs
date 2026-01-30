@@ -89,7 +89,9 @@ async function main() {
       const date = mdEscape(p?.date ?? "");
       const excerpt = mdEscape(truncate(p?.excerpt ?? "", 120));
       const img = p?.image ? `${SITE}${p.image}` : ogDefault;
-      return { title, url, date, excerpt, img };
+      // Prefer the external project URL for favicon purposes.
+      const siteUrl = p?.iframeSrc ? String(p.iframeSrc) : url;
+      return { title, url, date, excerpt, img, siteUrl };
     })
     .filter((p) => p.title && p.url);
 
@@ -106,72 +108,40 @@ async function main() {
 
   const lines = [];
 
-  // Hero (mirrors the vibe of sergiopesch.com)
+  // Minimal header
   lines.push(`<div align="center">`);
   lines.push("");
   lines.push(`# Sergio Peschiera`);
   lines.push("");
-  lines.push(
-    `Welcome to my digital garden — a space where I explore ideas, build small projects, and share what I learn.`
-  );
-  lines.push("");
-  lines.push(
-    `<a href="${SITE}"><b>Website</b></a> · <a href="${SITE}/projects"><b>Projects</b></a> · <a href="${SITE}/raw-thoughts"><b>Thoughts</b></a> · <a href="https://x.com/sergiopesch"><b>X</b></a> · <a href="https://github.com/sergiopesch"><b>GitHub</b></a>`
-  );
-  lines.push("");
   lines.push(`</div>`);
   lines.push("");
 
-  // Latest project callout
-  if (latestProject?.slug) {
-    lines.push(`## Latest`);
-    lines.push(
-      `**[${mdEscape(latestProject.title)}](${SITE}/projects/${mdEscape(
-        latestProject.slug
-      )})** — ${mdEscape(truncate(latestProject.excerpt ?? "", 180))}`
-    );
-    lines.push("");
-  }
-
   // Projects as “cards” (HTML for layout)
-  if (cards.length) {
+  // Projects (sorted newest → oldest)
+  const cardsSorted = [...cards].sort((a, b) => (b.date || "").localeCompare(a.date || ""));
+
+  if (cardsSorted.length) {
     lines.push(`## Projects`);
     lines.push("");
     lines.push(`<div>`);
-    for (const c of cards) {
+    for (const c of cardsSorted) {
+      // "Favicon as emoji" → render favicon as a tiny inline image next to the title.
+      // Prefer the project external site (if any) by using Google's favicon service on the project URL.
+      const favicon = `https://www.google.com/s2/favicons?sz=64&domain_url=${encodeURIComponent(
+        c.siteUrl
+      )}`;
+
       lines.push(
         `<a href="${c.url}"><img src="${c.img}" alt="${c.title}" width="420" /></a>`
       );
       lines.push(
-        `<div><a href="${c.url}"><b>${c.title}</b></a>${c.date ? ` · <sub>${c.date}</sub>` : ""}<br/><sub>${c.excerpt}</sub></div>`
+        `<div><img src="${favicon}" alt="" width="16" height="16" /> <a href="${c.url}"><b>${c.title}</b></a>${c.date ? ` · <sub>${c.date}</sub>` : ""}<br/><sub>${c.excerpt}</sub></div>`
       );
       lines.push(`<br/>`);
     }
     lines.push(`</div>`);
     lines.push("");
-    lines.push(`→ See all projects: ${SITE}/projects`);
-    lines.push("");
   }
-
-  // Thoughts
-  if (thoughtCards.length) {
-    lines.push(`## Recent thoughts`);
-    lines.push("");
-    for (const t of thoughtCards) {
-      lines.push(
-        `- **[${t.title}](${t.url})**${t.date ? ` — ${t.date}` : ""}${t.excerpt ? `\n  - ${t.excerpt}` : ""}`
-      );
-    }
-    lines.push("");
-    lines.push(`→ More writing: ${SITE}/raw-thoughts`);
-    lines.push("");
-  }
-
-  lines.push(`---`);
-  lines.push(
-    `_Auto-generated from ${SITE} (parsing Next.js __NEXT_DATA__). Updated: ${new Date().toISOString()}_`
-  );
-  lines.push("");
 
   await fs.writeFile("README.md", lines.join("\n"), "utf8");
   console.log("README.md generated");
