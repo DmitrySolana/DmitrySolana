@@ -79,44 +79,91 @@ async function main() {
       )}) — ${mdEscape(truncate(latestProject.excerpt ?? "", 140))}`
     : "";
 
+  const ogDefault = `${SITE}/images/og-default.png`;
+
+  const cards = pick(projects, 6)
+    .map((p) => {
+      const title = mdEscape(p?.title);
+      const slug = mdEscape(p?.slug);
+      const url = `${SITE}/projects/${slug}`;
+      const date = mdEscape(p?.date ?? "");
+      const excerpt = mdEscape(truncate(p?.excerpt ?? "", 120));
+      const img = p?.image ? `${SITE}${p.image}` : ogDefault;
+      return { title, url, date, excerpt, img };
+    })
+    .filter((p) => p.title && p.url);
+
+  const thoughtCards = pick(thoughts, 5)
+    .map((t) => {
+      const title = mdEscape(t?.title);
+      const slug = mdEscape(t?.slug);
+      const url = `${SITE}/raw-thoughts/${slug}`;
+      const date = mdEscape(t?.date ?? "");
+      const excerpt = mdEscape(truncate(t?.excerpt ?? "", 140));
+      return { title, url, date, excerpt };
+    })
+    .filter((t) => t.title && t.url);
+
   const lines = [];
 
-  // Header / “hero”
-  lines.push(`<div align=\"center\">`);
+  // Hero (mirrors the vibe of sergiopesch.com)
+  lines.push(`<div align="center">`);
   lines.push("");
   lines.push(`# Sergio Peschiera`);
   lines.push("");
-  lines.push(`Building small products, writing things down, and iterating in public.`);
+  lines.push(
+    `Welcome to my digital garden — a space where I explore ideas, build small projects, and share what I learn.`
+  );
   lines.push("");
   lines.push(
-    `[Website](${SITE}) · [Projects](${SITE}/projects) · [Thoughts](${SITE}/raw-thoughts) · [X](https://x.com/sergiopesch)`
+    `<a href="${SITE}"><b>Website</b></a> · <a href="${SITE}/projects"><b>Projects</b></a> · <a href="${SITE}/raw-thoughts"><b>Thoughts</b></a> · <a href="https://x.com/sergiopesch"><b>X</b></a> · <a href="https://github.com/sergiopesch"><b>GitHub</b></a>`
   );
   lines.push("");
   lines.push(`</div>`);
   lines.push("");
 
-  if (latestProjectLine) {
-    lines.push(latestProjectLine);
+  // Latest project callout
+  if (latestProject?.slug) {
+    lines.push(`## Latest`);
+    lines.push(
+      `**[${mdEscape(latestProject.title)}](${SITE}/projects/${mdEscape(
+        latestProject.slug
+      )})** — ${mdEscape(truncate(latestProject.excerpt ?? "", 180))}`
+    );
     lines.push("");
   }
 
-  // Projects
-  if (topProjects.length) {
+  // Projects as “cards” (HTML for layout)
+  if (cards.length) {
     lines.push(`## Projects`);
-    for (const p of topProjects) {
-      const suffix = [p.desc && `— ${p.desc}`, p.date && `(${p.date})`].filter(Boolean).join(" ");
-      lines.push(`- [${p.title}](${p.url}) ${suffix}`.trim());
+    lines.push("");
+    lines.push(`<div>`);
+    for (const c of cards) {
+      lines.push(
+        `<a href="${c.url}"><img src="${c.img}" alt="${c.title}" width="420" /></a>`
+      );
+      lines.push(
+        `<div><a href="${c.url}"><b>${c.title}</b></a>${c.date ? ` · <sub>${c.date}</sub>` : ""}<br/><sub>${c.excerpt}</sub></div>`
+      );
+      lines.push(`<br/>`);
     }
+    lines.push(`</div>`);
+    lines.push("");
+    lines.push(`→ See all projects: ${SITE}/projects`);
     lines.push("");
   }
 
-  // Writing
-  if (topThoughts.length) {
+  // Thoughts
+  if (thoughtCards.length) {
     lines.push(`## Recent thoughts`);
-    for (const t of topThoughts) {
-      const suffix = t.date ? `— ${t.date}` : "";
-      lines.push(`- [${t.title}](${t.url}) ${suffix}`.trim());
+    lines.push("");
+    for (const t of thoughtCards) {
+      lines.push(
+        `- **[${t.title}](${t.url})**${t.date ? ` — ${t.date}` : ""}${t.excerpt ? `\n  - ${t.excerpt}` : ""}`
+      );
     }
+    lines.push("");
+    lines.push(`→ More writing: ${SITE}/raw-thoughts`);
     lines.push("");
   }
 
