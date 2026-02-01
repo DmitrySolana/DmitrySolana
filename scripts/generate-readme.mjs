@@ -51,38 +51,53 @@ async function main() {
   const taglines = JSON.parse(await fs.readFile("scripts/taglines.json", "utf8"));
   const emojis = JSON.parse(await fs.readFile("scripts/emojis.json", "utf8"));
 
-  const data = await ghGraphql(
-    `query($login:String!) {
-      user(login:$login) {
-        repositories(
-          first: 30,
-          orderBy: {field: PUSHED_AT, direction: DESC},
-          ownerAffiliations: OWNER,
-          privacy: PUBLIC
-        ) {
-          nodes {
-            name
-            description
-            url
-            pushedAt
-            isPrivate
-            isArchived
-            isFork
+  // Paginate through ALL public repos, sorted by creation date (newest first)
+  let allNodes = [];
+  let cursor = null;
+  let hasMore = true;
+
+  while (hasMore) {
+    const data = await ghGraphql(
+      `query($login:String!, $after:String) {
+        user(login:$login) {
+          repositories(
+            first: 100,
+            after: $after,
+            orderBy: {field: CREATED_AT, direction: DESC},
+            ownerAffiliations: OWNER,
+            privacy: PUBLIC
+          ) {
+            nodes {
+              name
+              description
+              url
+              createdAt
+              isPrivate
+              isArchived
+              isFork
+            }
+            pageInfo {
+              hasNextPage
+              endCursor
+            }
           }
         }
-      }
-    }`,
-    { login: GH_USER }
-  );
+      }`,
+      { login: GH_USER, after: cursor }
+    );
 
-  const reposRaw = data?.user?.repositories?.nodes ?? [];
-  const repos = reposRaw
+    const page = data?.user?.repositories ?? {};
+    allNodes = allNodes.concat(page.nodes ?? []);
+    hasMore = page.pageInfo?.hasNextPage ?? false;
+    cursor = page.pageInfo?.endCursor ?? null;
+  }
+
+  const repos = allNodes
     .filter(Boolean)
     .filter((r) => !r.isPrivate)
     .filter((r) => !r.isArchived)
     .filter((r) => !r.isFork)
     .filter((r) => r.name !== GH_USER) // hide the profile repo itself
-    .slice(0, 20)
     .map((r) => {
       const custom = taglines?.[r.name] || "";
       const fallback = r.description ? `"${r.description}"` : "";
@@ -91,7 +106,7 @@ async function main() {
       return {
         name: mdEscape(String(r.name).toLowerCase()),
         url: r.url,
-        pushedAt: r.pushedAt || "",
+        createdAt: r.createdAt || "",
         desc,
         emoji,
       };
