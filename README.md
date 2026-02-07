@@ -1,11 +1,14 @@
-# Hello there, I'm Sergio <img src="https://media.giphy.com/media/hvRJCLFzcasrR4ia7z/giphy.gif" width="28" alt="hi" />
+# Hello there, I'm Dmitry <img src="https://media.giphy.com/media/hvRJCLFzcasrR4ia7z/giphy.gif" width="28" alt="hi" />
 📍 London
 
-Deep in vibe-coding mode
+I like building some special things💻
+
+Building @DriftProtocol || Prev. @leptonai
+nCMO @Solana || frame @SolanaFloor ⌨️
 
 ## Current Projects
 
-- 🎵 <a href="https://github.com/sergiopesch/mp3"><b>mp3</b></a> — Paste URL, get audio
+- 🎵 <a href="https://github.com/sergio-peschiera/Molt-Pi-Maker"><b>mp3</b></a> — Paste URL, get audio
 - 🥧 <a href="https://github.com/sergiopesch/raspberry-pi-maker"><b>raspberry-pi-maker</b></a> — Pi projects, maker vibes
 - 🔌 <a href="https://github.com/sergiopesch/arduino-maker"><b>arduino-maker</b></a> — Arduino hacks and builds
 - ☕️ <a href="https://github.com/sergiopesch/Fuse--Creatine-"><b>fuse--creatine-</b></a> — Creatine meets coffee
