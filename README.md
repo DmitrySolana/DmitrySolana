@@ -5,6 +5,7 @@ Deep in vibe-coding mode
 
 ## Current Projects
 
+- ✨ <a href="https://github.com/sergiopesch/interactive-component-explorer"><b>interactive-component-explorer</b></a> — "A project to learn about electronic components "
 - 🎵 <a href="https://github.com/sergiopesch/mp3"><b>mp3</b></a> — Paste URL, get audio
 - 🥧 <a href="https://github.com/sergiopesch/raspberry-pi-maker"><b>raspberry-pi-maker</b></a> — Pi projects, maker vibes
 - 🔌 <a href="https://github.com/sergiopesch/arduino-maker"><b>arduino-maker</b></a> — Arduino hacks and builds
@@ -38,7 +39,7 @@ Deep in vibe-coding mode
 - 📱 <a href="https://github.com/sergiopesch/my-app"><b>my-app</b></a> — App template
 - 🌱 <a href="https://github.com/sergiopesch/plant-watering-system"><b>plant-watering-system</b></a> — Waters plants
 
-<sub>32 repos</sub>
+<sub>33 repos</sub>
 
 ## Vibe Activity
 
