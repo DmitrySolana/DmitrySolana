@@ -1,7 +1,7 @@
 # Hello there, I'm Dmitry <img src="https://media.giphy.com/media/hvRJCLFzcasrR4ia7z/giphy.gif" width="28" alt="hi" />
 📍 London
 
-Deep in vibe-coding mode
+Crypto Builders💻
 
 ## Current Projects
 
