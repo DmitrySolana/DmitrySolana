@@ -23,7 +23,6 @@ Deep in vibe-coding mode
 - 🛍️ <a href="https://github.com/sergiopesch/london-shop"><b>london-shop</b></a> — Fake merch, real London love
 - 🥋 <a href="https://github.com/sergiopesch/mybjjmentor"><b>mybjjmentor</b></a> — BJJ tracker
 - 🎬 <a href="https://github.com/sergiopesch/video-meme"><b>video-meme</b></a> — Videos → memes
-- 🗣️ <a href="https://github.com/sergiopesch/VoiceModeReplica"><b>voicemodereplica</b></a> — Voice mode, recreated
 - 🧱 <a href="https://github.com/sergiopesch/verticalbrick-pong-game"><b>verticalbrick-pong-game</b></a> — Vertical pong
 - 🔊 <a href="https://github.com/sergiopesch/voice"><b>voice</b></a> — Talk in, magic out
 - 👥 <a href="https://github.com/sergiopesch/diarization-demo"><b>diarization-demo</b></a> — Who said what
@@ -39,7 +38,7 @@ Deep in vibe-coding mode
 - 🌐 <a href="https://github.com/sergiopesch/my-site-template"><b>my-site-template</b></a> — Site template
 - 🌱 <a href="https://github.com/sergiopesch/plant-watering-system"><b>plant-watering-system</b></a> — Waters plants
 
-<sub>33 repos</sub>
+<sub>32 repos</sub>
 
 ## Vibe Activity
 
