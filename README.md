@@ -36,12 +36,10 @@ Deep in vibe-coding mode
 - 🏋️ <a href="https://github.com/sergiopesch/kettlebellform"><b>kettlebellform</b></a> — Kettlebell form checker
 - 📆 <a href="https://github.com/sergiopesch/weekly"><b>weekly</b></a> — Weekly planner thing
 - 📝 <a href="https://github.com/sergiopesch/Note-Taker"><b>note-taker</b></a> — Talk, ramble, get notes
-- 🌊 <a href="https://github.com/sergiopesch/Flowise"><b>flowise</b></a> — Fork of Flowise
 - 🌐 <a href="https://github.com/sergiopesch/my-site-template"><b>my-site-template</b></a> — Site template
-- 📱 <a href="https://github.com/sergiopesch/my-app"><b>my-app</b></a> — App template
 - 🌱 <a href="https://github.com/sergiopesch/plant-watering-system"><b>plant-watering-system</b></a> — Waters plants
 
-<sub>35 repos</sub>
+<sub>33 repos</sub>
 
 ## Vibe Activity
 
