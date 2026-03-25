@@ -18,7 +18,6 @@ Deep in vibe-coding mode
 - 🎙️ <a href="https://github.com/sergiopesch/virtualpodcaststudio"><b>virtualpodcaststudio</b></a> — Generates podcasts from the web
 - 📚 <a href="https://github.com/sergiopesch/ai-research-gather"><b>ai-research-gather</b></a> — Papers summarized
 - 🥐 <a href="https://github.com/sergiopesch/breakfast-burst-planner"><b>breakfast-burst-planner</b></a> — Plans breakfast
-- 🧪 <a href="https://github.com/sergiopesch/aimc"><b>aimc</b></a> — Experiments
 - 🛍️ <a href="https://github.com/sergiopesch/london-shop"><b>london-shop</b></a> — Fake merch, real London love
 - 🥋 <a href="https://github.com/sergiopesch/mybjjmentor"><b>mybjjmentor</b></a> — BJJ tracker
 - 🎬 <a href="https://github.com/sergiopesch/video-meme"><b>video-meme</b></a> — Videos → memes
@@ -37,7 +36,7 @@ Deep in vibe-coding mode
 - 🌐 <a href="https://github.com/sergiopesch/my-site-template"><b>my-site-template</b></a> — Site template
 - 🌱 <a href="https://github.com/sergiopesch/plant-watering-system"><b>plant-watering-system</b></a> — Waters plants
 
-<sub>31 repos</sub>
+<sub>30 repos</sub>
 
 ## Vibe Activity
 
