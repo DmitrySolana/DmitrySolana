@@ -5,6 +5,7 @@ Deep in vibe-coding mode
 
 ## Current Projects
 
+- ✨ <a href="https://github.com/sergiopesch/animal360"><b>animal360</b></a> — "A Salesforce application for animal welfare organisations"
 - ✨ <a href="https://github.com/sergiopesch/voltz"><b>voltz</b></a> — "Voice-first AI companion for electronics enthusiasts"
 - ✨ <a href="https://github.com/sergiopesch/clitronic"><b>clitronic</b></a> — "A tool for electronic enthusiasts "
 - 🎵 <a href="https://github.com/sergiopesch/mp3"><b>mp3</b></a> — Paste URL, get audio
@@ -36,7 +37,7 @@ Deep in vibe-coding mode
 - 🌐 <a href="https://github.com/sergiopesch/my-site-template"><b>my-site-template</b></a> — Site template
 - 🌱 <a href="https://github.com/sergiopesch/plant-watering-system"><b>plant-watering-system</b></a> — Waters plants
 
-<sub>30 repos</sub>
+<sub>31 repos</sub>
 
 ## Vibe Activity
 
