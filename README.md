@@ -23,7 +23,7 @@ Deep in vibe-coding mode
 - 🥋 <a href="https://github.com/sergiopesch/mybjjmentor"><b>mybjjmentor</b></a> — BJJ tracker
 - 🎬 <a href="https://github.com/sergiopesch/video-meme"><b>video-meme</b></a> — Videos → memes
 - 🧱 <a href="https://github.com/sergiopesch/verticalbrick-pong-game"><b>verticalbrick-pong-game</b></a> — Vertical pong
-- 🔊 <a href="https://github.com/sergiopesch/voice"><b>voice</b></a> — Talk in, magic out
+- ✨ <a href="https://github.com/sergiopesch/voco"><b>voco</b></a> — "A voice-native interface layer designed for speed and precision"
 - 👥 <a href="https://github.com/sergiopesch/diarization-demo"><b>diarization-demo</b></a> — Who said what
 - 📅 <a href="https://github.com/sergiopesch/month-match-adventure"><b>month-match-adventure</b></a> — Match months
 - 🎛️ <a href="https://github.com/sergiopesch/my-audio-visualizer"><b>my-audio-visualizer</b></a> — Sound → pixels
